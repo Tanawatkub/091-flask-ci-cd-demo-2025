@@ -61,7 +61,7 @@ jobs:
           cd backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-cov
+          pip install pytest-cov
 
       - name: Install Redis CLI
         run: |
@@ -85,7 +85,7 @@ jobs:
           export DATABASE_URL="postgresql://testuser:testpass@localhost:5432/testdb"
           export REDIS_URL="redis://localhost:6379"
           export FLASK_ENV=testing
-          pytest tests/ -v --cov=backend --cov-report=xml --cov-report=html --cov-report=term
+          pytest tests/ -v --cov=. --cov-report=xml --cov-report=html --cov-report=term
         env:
           SECRET_KEY: test-secret-key
 
@@ -307,7 +307,7 @@ jobs:
             | Docker Build | ${statusEmoji[buildStatus] || '❓'} | ${buildStatus} |
             
             **Commit**: \`${{ github.sha }}\`
-            **Branch**: \`${{ github.head_ref || github.ref_name }}\`
+            **Branch**: \`${{ github.head_ref }}\`
             **Triggered by**: @${{ github.actor }}
             
             ---
@@ -329,3 +329,4 @@ jobs:
           echo "✓ Security: ${{ needs.security-additional.result }}"
           echo "✓ Build: ${{ needs.build.result }}"
           echo "=========================="
+
